@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{COURSE_NAME}} 홀별 공략법</title>
+<style>
+:root {
+  --gd:#1a3d2b; --gm:#2d6a4f; --gl:#52b788;
+  --sand:#d4a843; --sandl:#fdf3d8;
+  --p3c:#154360; --p5c:#7e3310;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:#eaf0ea;color:#2c3e2f;}
+
+/* ── HEADER ── */
+.site-header{background:linear-gradient(160deg,#0b1e14 0%,#1a3d2b 55%,#2d6a4f 100%);color:#fff;padding:26px 20px 20px;text-align:center;position:relative;}
+.site-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#d4a843,#f9e8a0,#d4a843);}
+.hdr-eye{font-size:11px;letter-spacing:4px;color:#d4a843;text-transform:uppercase;margin-bottom:7px;}
+.hdr-club{font-size:30px;font-weight:900;letter-spacing:2px;}
+.hdr-sub{font-size:15px;color:rgba(255,255,255,.7);margin-top:4px;}
+.hdr-stats{display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.stat-chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:4px 12px;border-radius:20px;font-size:12px;color:rgba(255,255,255,.9);}
+
+/* ── TOOLBAR ── */
+.toolbar{background:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #dde8de;}
+.toolbar-title{font-size:13px;color:#5a7060;font-weight:600;}
+.print-btn{display:flex;align-items:center;gap:7px;background:var(--gd);color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;}
+.print-btn:hover{background:#0b1e14;}
+
+/* ── TABS ── */
+.tabs{display:flex;background:#fff;border-bottom:3px solid #dde8de;position:sticky;top:0;z-index:99;}
+.tab-btn{flex:1;padding:12px 4px;border:none;background:transparent;font-size:13px;font-weight:700;color:#7a9080;cursor:pointer;font-family:inherit;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s;}
+.tab-btn.active{color:var(--gd);border-bottom-color:var(--gm);}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+
+/* ── LEGEND ── */
+.par-legend{display:flex;gap:16px;padding:8px 16px;background:#fff;border-bottom:1px solid #dde8de;justify-content:center;font-size:12px;color:#5a7060;}
+.leg-item{display:flex;align-items:center;gap:5px;}
+.leg-dot{width:12px;height:12px;border-radius:3px;}
+.ld3{background:#154360;} .ld4{background:#1a3d2b;} .ld5{background:#7e3310;}
+
+/* ── COURSE SECTION HEADER ── */
+.cs-header{display:flex;align-items:center;padding:12px 16px;background:#fff;margin:8px 0 2px;border-left:5px solid var(--gm);}
+.cs-header h2{font-size:16px;font-weight:900;color:var(--gd);}
+.cs-badge{margin-left:auto;background:var(--gd);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;}
+
+/* ── HOLE CARD ── */
+.holes-grid{padding:0 8px 8px;}
+.hole-card{background:#fff;border-radius:14px;overflow:hidden;margin:8px 0;box-shadow:0 2px 14px rgba(0,0,0,.08);}
+.hc-p4 .hc-head{background:linear-gradient(135deg,#1a3d2b,#2d6a4f);}
+.hc-p3 .hc-head{background:linear-gradient(135deg,#154360,#1a5276);}
+.hc-p5 .hc-head{background:linear-gradient(135deg,#7e3310,#c45525);}
+
+.hc-head{padding:14px 16px;display:flex;align-items:center;gap:13px;color:#fff;}
+.hc-circle{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+.hc-circle .cn{font-size:21px;font-weight:900;line-height:1;}
+.hc-circle .cl{font-size:9px;opacity:.75;}
+.hc-info{flex:1;}
+.hc-info h3{font-size:16px;font-weight:800;}
+.hc-tags{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;}
+.htag{padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);}
+.hc-par{text-align:center;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.35);border-radius:10px;padding:8px 13px;}
+.hc-par .pn{font-size:22px;font-weight:900;}
+.hc-par .pl{font-size:9px;opacity:.75;}
+
+/* ── HOLE IMAGE ── */
+.hc-img-wrap{position:relative;background:#f0f6f2;border-bottom:1px solid #e5ece6;overflow:hidden;text-align:center;max-height:660px;}
+.hc-img-wrap img{width:100%;max-height:660px;object-fit:contain;display:block;}
+.img-placeholder{height:120px;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:13px;}
+
+/* ── DISTANCE GRID ── */
+.hc-dist{padding:12px 16px;border-bottom:1px solid #f0f0f0;}
+.dist-label{font-size:10px;font-weight:800;color:#7a9080;letter-spacing:1px;margin-bottom:8px;text-transform:uppercase;}
+.dist-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;}
+.di{text-align:center;padding:8px 2px;border-radius:8px;border:1px solid #e5e5e5;transition:transform .1s;}
+.di .dn{font-size:10px;font-weight:700;margin-bottom:3px;}
+.di .dv{font-size:14px;font-weight:800;}
+.di .du{font-size:9px;color:#bbb;}
+
+/* Tee colors */
+.di-bk{background:#f3f3f3;border-color:#ccc;} .di-bk .dn{color:#333;} .di-bk .dv{color:#111;}
+.di-gd{background:#fffbee;border-color:#e8d070;} .di-gd .dn{color:#9a7000;} .di-gd .dv{color:#a88000;}
+.di-sv{background:#f4f7fa;border-color:#c0d0da;} .di-sv .dn{color:#4a6070;} .di-sv .dv{color:#3a5060;}
+.di-rd{background:#fff5f5;border-color:#f0c0c0;} .di-rd .dn{color:#8b1a1a;} .di-rd .dv{color:#c0392b;}
+
+/* WHITE TEE – featured */
+.di-wh{
+  background:linear-gradient(135deg,#1a3d2b,#2d6a4f);
+  border-color:#1a3d2b;
+  border-width:2px;
+  transform:scaleY(1.08);
+  box-shadow:0 3px 10px rgba(26,61,43,.25);
+  position:relative;
+}
+.di-wh .dn{color:rgba(255,255,255,.85);font-size:11px;}
+.di-wh .dv{color:#fff;font-size:17px;}
+.di-wh .du{color:rgba(255,255,255,.6);}
+.di-wh::after{content:'기준';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);font-size:8px;color:rgba(255,255,255,.7);white-space:nowrap;}
+
+/* ── STRATEGY ── */
+.hc-strat{padding:12px 16px;border-bottom:1px solid #f0f0f0;}
+.sec-label{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.sec-label .dot{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:#fff;}
+.dot-strat{background:var(--gm);}
+.dot-green{background:#c0440a;}
+.strat-body{font-size:20px;line-height:1.8;color:#3a4a3e;background:#f5fdf7;padding:10px 13px;border-radius:8px;border-left:3px solid var(--gl);}
+
+/* ── GREEN STRATEGY ── */
+.hc-green{padding:12px 16px 14px;}
+.green-body{font-size:20px;line-height:1.8;color:#3d2e20;background:#fdf8f0;padding:10px 13px;border-radius:8px;border-left:3px solid #d4a843;}
+
+/* ── SCORECARD ── */
+.sc-section{padding:0 16px 16px;}
+.sc-scroll{overflow-x:auto;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08);margin-top:8px;}
+.sc-tbl{width:100%;min-width:560px;border-collapse:collapse;background:#fff;font-size:11px;}
+.sc-tbl th{background:var(--gd);color:#fff;padding:7px 5px;text-align:center;font-size:10px;}
+.sc-tbl td{padding:6px 5px;text-align:center;border-bottom:1px solid #eee;border-right:1px solid #eee;}
+.sc-tbl .lc{background:#f0f6f2;font-weight:700;color:var(--gd);text-align:left;padding-left:10px;}
+.sc-tbl .tc{background:#e4f0e8;font-weight:900;color:var(--gd);}
+.sc-tbl .wh-row td:not(.lc):not(.tc){background:#e8f4ec;font-weight:700;color:#1a3d2b;font-size:12px;}
+.sc-tbl tr:nth-child(odd) td:not(.lc):not(.tc):not(.wh-row td){background:#f8fffe;}
+.v3{color:#1a5276;font-weight:800;} .v4{color:#1a5c2e;font-weight:800;} .v5{color:#c0440a;font-weight:800;}
+
+.total-box{margin:16px 16px 8px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.08);}
+.total-box-head{background:var(--gd);color:#fff;padding:11px 16px;font-weight:900;font-size:15px;}
+.total-grid{display:grid;grid-template-columns:repeat(4,1fr);}
+.total-item{padding:13px 6px;text-align:center;border-right:1px solid #eee;}
+.total-item:last-child{border-right:none;}
+.total-item .tl{font-size:10px;color:#999;margin-bottom:4px;}
+.total-item .tv{font-size:17px;font-weight:900;color:var(--gd);}
+.total-item .tu{font-size:10px;color:#aaa;}
+.total-item.wh-hi .tv{color:#1a3d2b;font-size:16px;}
+
+.site-footer{background:var(--gd);color:rgba(255,255,255,.6);text-align:center;padding:20px;font-size:12px;line-height:2;}
+
+/* ══════════════════════════════
+   PRINT / PDF STYLES
+   목표: A4 세로, 1홀 1페이지
+   ══════════════════════════════ */
+@media print {
+  @page{size:A4 portrait;margin:6mm 7mm;}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  body{background:#fff;}
+
+  .toolbar,.tabs,.par-legend{display:none!important;}
+  .tab-pane{display:block!important;}
+  #tab-out,#tab-in,#tab-scorecard{display:none!important;}
+  .site-header{display:none!important;}
+  .cs-header{display:none!important;}
+  .site-footer{display:none!important;}
+
+  .holes-grid{padding:0;display:block;}
+
+  .hole-card{
+    page-break-after:always;
+    break-after:page;
+    page-break-inside:avoid;
+    break-inside:avoid;
+    margin:0;
+    box-shadow:none;
+    border-radius:10px;
+    border:1px solid #ddd;
+    display:flex;
+    flex-direction:column;
+  }
+  .holes-grid:last-of-type .hole-card:last-child{
+    page-break-after:avoid;
+    break-after:avoid;
+  }
+
+  .hc-head{padding:9px 14px;gap:10px;}
+  .hc-circle{width:44px;height:44px;}
+  .hc-circle .cn{font-size:20px;}
+  .hc-info h3{font-size:16px;}
+  .hc-par .pn{font-size:20px;}
+  .hc-par{padding:6px 11px;}
+  .htag{font-size:10px;padding:2px 8px;}
+
+  .hc-img-wrap{max-height:520px;}
+  .hc-img-wrap img{max-height:520px;}
+
+  .hc-dist{padding:8px 14px;}
+  .dist-label{font-size:10px;margin-bottom:5px;}
+  .dist-grid{gap:4px;}
+  .di{padding:6px 2px;}
+  .di .dn{font-size:9px;}
+  .di .dv{font-size:13px;}
+  .di-wh .dv{font-size:16px;}
+
+  .hc-strat{padding:8px 14px;}
+  .hc-green{padding:8px 14px 10px;}
+  .strat-body,.green-body{font-size:20px;line-height:1.72;padding:8px 11px;}
+  .sec-label{font-size:11px;margin-bottom:5px;}
+  .sec-label .dot{width:15px;height:15px;font-size:10px;}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="hdr-eye">⛳ Golf Strategy Guide</div>
+  <h1 class="hdr-club">{{COURSE_NAME}}</h1>
+  <div class="hdr-sub">{{COURSE_SUBTITLE}}</div>
+  <div class="hdr-stats">
+    {{COURSE_STATS_CHIPS}}
+  </div>
+</header>
+
+<div class="toolbar">
+  <span class="toolbar-title">{{TOOLBAR_TITLE}}</span>
+  <button class="print-btn" onclick="window.print()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="6 9 6 2 18 2 18 9"/>
+      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+      <rect x="6" y="14" width="12" height="8"/>
+    </svg>
+    PDF 저장
+  </button>
+</div>
+
+<nav class="tabs">
+  <button class="tab-btn active" onclick="showTab(this,'all')">전체</button>
+  <button class="tab-btn" onclick="showTab(this,'out')">OUT (1–9)</button>
+  <button class="tab-btn" onclick="showTab(this,'in')">IN (10–18)</button>
+  <button class="tab-btn" onclick="showTab(this,'scorecard')">스코어카드</button>
+</nav>
+
+<div class="par-legend">
+  <div class="leg-item"><span class="leg-dot ld3"></span>Par 3</div>
+  <div class="leg-item"><span class="leg-dot ld4"></span>Par 4</div>
+  <div class="leg-item"><span class="leg-dot ld5"></span>Par 5</div>
+  <div class="leg-item" style="margin-left:8px;color:#1a3d2b;font-weight:700;">⚪ = 화이트 티 기준</div>
+</div>
+
+<div id="tab-all"  class="tab-pane active"><div id="render-all"></div></div>
+<div id="tab-out"  class="tab-pane"><div id="render-out"></div></div>
+<div id="tab-in"   class="tab-pane"><div id="render-in"></div></div>
+<div id="tab-scorecard" class="tab-pane"><div id="render-sc"></div></div>
+
+<footer class="site-footer">
+  {{FOOTER_TEXT}}
+</footer>
+
+<script>
+// ── HOLE DATA ──
+// Replace this array with actual hole data
+const holes = {{HOLES_JSON}};
+
+function imgSrc(h) {
+  // h.imgUrl: direct URL string, or use pattern if provided
+  return h.imgUrl || '';
+}
+
+function card(h) {
+  const pc = h.par===3?'hc-p3':h.par===5?'hc-p5':'hc-p4';
+  const distKeys = Object.keys(h.d);
+
+  // Build distance grid (supports variable tee counts)
+  const teeConfig = {
+    bk: {label:'⚫ BLK', cls:'di-bk'},
+    gd: {label:'🟡 GLD', cls:'di-gd'},
+    wh: {label:'⚪ WHT', cls:'di-wh'},
+    sv: {label:'🔵 SLV', cls:'di-sv'},
+    rd: {label:'🔴 RED', cls:'di-rd'},
+  };
+  const distCols = distKeys.map(k => {
+    const cfg = teeConfig[k] || {label: k.toUpperCase(), cls: 'di-sv'};
+    return `<div class="di ${cfg.cls}"><div class="dn">${cfg.label}</div><div class="dv">${h.d[k]}</div><div class="du">m</div></div>`;
+  }).join('');
+  const gridStyle = distKeys.length !== 5 ? `grid-template-columns:repeat(${distKeys.length},1fr);` : '';
+
+  const imgHtml = h.imgUrl
+    ? `<img src="${h.imgUrl}" alt="${h.n}번 홀 코스맵" referrerpolicy="no-referrer" loading="eager" onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'>코스 이미지 준비중</div>'">`
+    : `<div class="img-placeholder">코스 이미지 준비중</div>`;
+
+  return `<div class="hole-card ${pc}">
+    <div class="hc-head">
+      <div class="hc-circle"><span class="cn">${h.n}</span><span class="cl">HOLE</span></div>
+      <div class="hc-info">
+        <h3>${h.n}번 홀</h3>
+        <div class="hc-tags"><span class="htag">HDCP ${h.hdcp}</span><span class="htag">${h.course}</span></div>
+      </div>
+      <div class="hc-par"><div class="pn">${h.par}</div><div class="pl">PAR</div></div>
+    </div>
+
+    <div class="hc-img-wrap">${imgHtml}</div>
+
+    <div class="hc-dist">
+      <div class="dist-label">티별 거리 (m)</div>
+      <div class="dist-grid" style="${gridStyle}">${distCols}</div>
+    </div>
+
+    <div class="hc-strat">
+      <div class="sec-label"><span class="dot dot-strat">▶</span>코스 공략</div>
+      <div class="strat-body">${h.strategy}</div>
+    </div>
+
+    <div class="hc-green">
+      <div class="sec-label"><span class="dot dot-green">⛳</span>그린 공략</div>
+      <div class="green-body">${h.green}</div>
+    </div>
+  </div>`;
+}
+
+function csHeader(title, par, distM) {
+  return `<div class="cs-header"><h2>${title}</h2><span class="cs-badge">파 ${par} | White ${distM.toLocaleString()}m</span></div>`;
+}
+
+function scTable(hs, title) {
+  const teeKeys = Object.keys(hs[0].d);
+  const teeLabels = {bk:'⚫ Black',gd:'🟡 Gold',wh:'⚪ White ★',sv:'🔵 Silver',rd:'🔴 Red'};
+  const teeRowStyle = {bk:'background:#eee',gd:'background:#fffbee',wh:'background:#e8f4ec;color:#1a3d2b',sv:'background:#f4f7fa',rd:'background:#fff5f5'};
+
+  const nums = hs.map(h=>`<th>${h.n}</th>`).join('');
+  const parRow = hs.map(h=>`<td class="${h.par===3?'v3':h.par===5?'v5':'v4'}">${h.par}</td>`).join('');
+  const hdRow  = hs.map(h=>`<td>${h.hdcp}</td>`).join('');
+  const parSum = hs.reduce((a,h)=>a+h.par,0);
+  const sum = k => hs.reduce((a,h)=>a+(h.d[k]||0),0);
+
+  const teeRows = teeKeys.map(k => {
+    const label = teeLabels[k] || k.toUpperCase();
+    const style = teeRowStyle[k] || '';
+    const isWh = k === 'wh';
+    const cells = hs.map(h=>`<td${isWh?' style="font-weight:700"':''}>${h.d[k]||'-'}</td>`).join('');
+    const rowClass = isWh ? ' class="wh-row"' : '';
+    return `<tr${rowClass}><td class="lc" style="${style}">${label}</td>${cells}<td class="tc">${sum(k)}</td></tr>`;
+  }).join('');
+
+  const distLabel = hs[0].d.wh ? sum('wh') : sum(teeKeys[0]);
+
+  return `
+  <div class="cs-header"><h2>${title}</h2><span class="cs-badge">파 ${parSum} | White ${distLabel.toLocaleString()}m</span></div>
+  <div class="sc-section">
+    <div class="sc-scroll">
+      <table class="sc-tbl">
+        <tr><th style="text-align:left;padding-left:8px;min-width:54px">구분</th>${nums}<th>합계</th></tr>
+        <tr><td class="lc">PAR</td>${parRow}<td class="tc v4">${parSum}</td></tr>
+        <tr><td class="lc">HDCP</td>${hdRow}<td class="tc">-</td></tr>
+        ${teeRows}
+      </table>
+    </div>
+  </div>`;
+}
+
+function render() {
+  const out = holes.filter(h=>h.course==='OUT');
+  const inn = holes.filter(h=>h.course==='IN');
+  const sumD = (k,hs) => hs.reduce((a,h)=>a+(h.d[k]||0),0);
+  const whKey = holes[0].d.wh !== undefined ? 'wh' : Object.keys(holes[0].d)[0];
+
+  document.getElementById('render-all').innerHTML =
+    (out.length ? csHeader('OUT 코스 (1-9홀)', out.reduce((a,h)=>a+h.par,0), sumD(whKey,out)) + `<div class="holes-grid">${out.map(card).join('')}</div>` : '') +
+    (inn.length ? csHeader('IN 코스 (10-18홀)', inn.reduce((a,h)=>a+h.par,0), sumD(whKey,inn)) + `<div class="holes-grid">${inn.map(card).join('')}</div>` : '');
+
+  document.getElementById('render-out').innerHTML = out.length
+    ? csHeader('OUT 코스 (1-9홀)', out.reduce((a,h)=>a+h.par,0), sumD(whKey,out)) + `<div class="holes-grid">${out.map(card).join('')}</div>`
+    : '<p style="padding:20px;color:#999">OUT 코스 데이터 없음</p>';
+
+  document.getElementById('render-in').innerHTML = inn.length
+    ? csHeader('IN 코스 (10-18홀)', inn.reduce((a,h)=>a+h.par,0), sumD(whKey,inn)) + `<div class="holes-grid">${inn.map(card).join('')}</div>`
+    : '<p style="padding:20px;color:#999">IN 코스 데이터 없음</p>';
+
+  const allHoles = [...out, ...inn];
+  const parTotal = allHoles.reduce((a,h)=>a+h.par,0);
+  const teeKeys = Object.keys(holes[0].d);
+  const totalItems = teeKeys.slice(0,4).map((k,i) => {
+    const labels = {bk:'⚫ Black',gd:'🟡 Gold',wh:'⚪ White',sv:'🔵 Silver',rd:'🔴 Red'};
+    const isWh = k === 'wh';
+    return `<div class="total-item${isWh?' wh-hi':''}"><div class="tl">${labels[k]||k}</div><div class="tv">${sumD(k,allHoles).toLocaleString()}<span class="tu">m</span></div></div>`;
+  }).join('');
+
+  document.getElementById('render-sc').innerHTML =
+    `<div style="padding:12px 16px 0"><div style="font-size:15px;font-weight:900;color:var(--gd);padding-left:12px;border-left:4px solid var(--gm)">전체 스코어카드</div></div>` +
+    (out.length ? scTable(out,'OUT 코스 (1-9홀)') : '') +
+    (inn.length ? scTable(inn,'IN 코스 (10-18홀)') : '') +
+    `<div class="total-box">
+      <div class="total-box-head">⛳ 전체 합계 (18홀)</div>
+      <div class="total-grid">
+        <div class="total-item"><div class="tl">총 PAR</div><div class="tv">${parTotal}</div></div>
+        ${totalItems}
+      </div>
+    </div>`;
+}
+
+function showTab(btn, id) {
+  document.querySelectorAll('.tab-pane').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+render();
+</script>
+</body>
+</html>
