@@ -1,0 +1,10 @@
+{
+  "name": "Golf Course Skills",
+  "description": "골프장 URL로부터 홀별 공략 가이드 HTML을 자동 생성하는 Claude Code 스킬. 18홀 코스맵·거리·공략 텍스트 포함, PDF 출력 지원.",
+  "skills": [
+    {
+      "name": "golf-course-guide",
+      "description": "골프장 웹사이트 URL을 입력하면 전 코스 18홀 공략 가이드를 HTML 파일로 자동 생성합니다. 코스맵 이미지, 티별 거리, 홀별 공략법 포함. PDF 저장 기능 내장."
+    }
+  ]
+}
