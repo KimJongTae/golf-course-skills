@@ -23,7 +23,7 @@ https://www.somegolfclub.com 이 골프장 18홀 공략 가이드 만들어줘
 ## 설치
 
 ```bash
-npx skills add blackkjt/golf-course-skills@golf-course-guide
+npx skills add KimJongTae/golf-course-skills@golf-course-guide
 ```
 
 ## 요구사항
